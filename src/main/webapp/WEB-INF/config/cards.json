@@ -1,0 +1,122 @@
+[
+	{
+		"cardType": "ORGAN",
+		"organType": "BONE",
+		"actionType" : "none",
+		"uniqueTypeID" : "1"
+	},
+	{
+		"cardType": "ORGAN",
+		"organType": "BRAIN",
+		"actionType" : "none",
+		"uniqueTypeID" : "2"
+	},
+	{
+		"cardType": "ORGAN",
+		"organType": "HEART",
+		"actionType" : "none",
+		"uniqueTypeID" : "3"
+	},
+	{
+		"cardType": "ORGAN",
+		"organType": "MAW",
+		"actionType" : "none",
+		"uniqueTypeID" : "4"
+	},
+	{
+		"cardType": "ORGAN",
+		"organType": "SPECIAL",
+		"actionType" : "none",
+		"uniqueTypeID" : "5"
+	},
+	{
+		"cardType": "VIRUS",
+		"organType": "BRAIN",
+		"actionType" : "none",
+		"uniqueTypeID" : "6"
+	},
+	{
+		"cardType": "VIRUS",
+		"organType": "HEART",
+		"actionType" : "none",
+		"uniqueTypeID" : "7"
+	},
+	{
+		"cardType": "VIRUS",
+		"organType": "MAW",
+		"actionType" : "none",
+		"uniqueTypeID" : "8"
+	},
+	{
+		"cardType": "VIRUS",
+		"organType": "BONE",
+		"actionType" : "none",
+		"uniqueTypeID" : "9"
+	},
+	{
+		"cardType": "VIRUS",
+		"organType": "SPECIAL",
+		"actionType" : "none",
+		"uniqueTypeID" : "10"
+	},
+	{
+		"cardType": "REMEDY",
+		"organType": "SPECIAL",
+		"actionType" : "none",
+		"uniqueTypeID" : "11"
+	},
+	{
+		"cardType": "REMEDY",
+		"organType": "BONE",
+		"actionType" : "none",
+		"uniqueTypeID" : "12"
+	},
+	{
+		"cardType": "REMEDY",
+		"organType": "BRAIN",
+		"actionType" : "none",
+		"uniqueTypeID" : "13"
+	},
+	{
+		"cardType": "REMEDY",
+		"organType": "MAW",
+		"actionType" : "none",
+		"uniqueTypeID" : "14"
+	},
+	{
+		"cardType": "REMEDY",
+		"organType": "HEART",
+		"actionType" : "none",
+		"uniqueTypeID" : "15"
+	},
+	{
+		"cardType": "ACTION",
+		"organType": "none",
+		"actionType": "SPREADER",
+		"uniqueTypeID" : "16"
+	},
+	{
+		"cardType": "ACTION",
+		"organType": "none",
+		"actionType": "GLOVE",
+		"uniqueTypeID" : "17"
+	},
+	{
+		"cardType": "ACTION",
+		"organType": "none",
+		"actionType": "THIEF",
+		"uniqueTypeID" : "18"
+	},
+	{
+		"cardType": "ACTION",
+		"organType": "none",
+		"actionType": "EXCHANGE",
+		"uniqueTypeID" : "19"
+	},
+	{
+		"cardType": "ACTION",
+		"organType": "none",
+		"actionType": "BODY_CHANGE",
+		"uniqueTypeID" : "20"
+	}
+]
