@@ -10,6 +10,6 @@ class CardZone extends Phaser.GameObjects.Rectangle {
 	}
 
 	putCard(card) {
-		this.cards.push(card);
+		this.cards.push(new Card(this.scene, this.x ,this.y, card.uniqueTypeID));
 	}
 }

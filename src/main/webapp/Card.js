@@ -6,14 +6,9 @@ class Card extends Phaser.GameObjects.Sprite {
 		this.setScale(.55);
 		this.setInteractive();
 
+
 		this.on('pointerdown', function(pointer) {
 			this.isTinted ? this.clearTint() : this.setTint(0x07e337);
 		});
-		
 	}
-	
-	setSprite(uniqueId){
-		this.setTexture(uniqueId);
-	}
-
 }

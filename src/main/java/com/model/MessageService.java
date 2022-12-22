@@ -30,12 +30,17 @@ public class MessageService {
 	public class MessageWrapper {
 		private State state;
 		private Game game;
-		private Player player;
+		private Hand hand;
 		
-		public MessageWrapper(State state, Game game, Player player) {
+		public MessageWrapper(State state, Game game, Hand hand) {
 			this.state = state;
 			this.game = game;	
-			this.player = player;
+			this.hand = hand;
+		}
+		
+		public MessageWrapper(State state, Game game) {
+			this.state = state;
+			this.game = game;	
 		}
 		
 		public State getState() {
@@ -46,8 +51,8 @@ public class MessageService {
 			return this.game;
 		}
 		
-		public Player getPlayer() {
-			return this.player;
+		public Hand getHand() {
+			return this.hand;
 		}
 		
 	}

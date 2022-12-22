@@ -8,9 +8,12 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="GameSettings.js"></script>
+<script src="HandData.js"></script>
 <script src="Card.js"></script>
+<script src="PlayerData.js"></script>
 <script src="CardZone.js"></script>
-<script src="Player.js"></script>
+<script src="Button.js"></script>
+<script src="Game.js"></script>
 <script src="Cookie.js"></script>
 <script>
 
@@ -52,11 +55,7 @@ body {
 	text-align: center;
 }
 
-.left-side {
-	width: 100%;
-	height: 700px;
-	background-color: red;
-}
+
 
 .menu {
 	display: flex;
@@ -81,6 +80,8 @@ canvas {
 
 #game-container {
 	display: none;
+	justify-content:center;
+	height:100%;
 }
 
 .log {
@@ -179,30 +180,17 @@ textarea {
 
 
 	<div id="game-container">
-		<div class="left-side">
-			<div class="menu">
-				<button id="change">Wymień karty</button>
-				<button id="skip">Nic nie rób</button>
-				<label for="players">Użyj karty na graczu</label>
-				<select id="players"></select>
-				<button id="useCard">Użyj karty</button>
-				
-			</div>
-			<div class="log">
-				<textarea id="echoText" rows="5" cols="30"></textarea>
-			</div>
-		</div>
-		<div id="right-side"></div>
 	</div>
 </body>
 
 <script type="text/javascript">
-(function(){
-	let game;
+//(function(){
+	
 	let webSocket;
 	let players;
 	let cards = [];
 	let x = false;
+	let scene;
 	
 	function joinGame(){
 		
@@ -226,9 +214,10 @@ textarea {
 			    	 webSocket = new WebSocket("ws://localhost:8080/ServerGame/basicEndpoint/" + gameid + "?clientId=" + "kutas"+ "&username=" + username);
 			    	 webSocket.onmessage = function(message) {
 		    		 let data = JSON.parse(message.data);
-		    		 let isPlaying = data.player.playable;
+		    		
+		    	
 		    		 
-		 			 $('#game-container .menu button').prop('disabled', !isPlaying);
+		 		
 		    		 
 		    		 console.log(data)
 		    		 messageHandler(data);
@@ -274,9 +263,6 @@ textarea {
 		
 	}
 	
-	function skip(){
-		webSocket.send("SKIP");
-	}
 	
 
 	function createNewGame(){
@@ -306,105 +292,35 @@ textarea {
 	}
 	
 	function handleStart(data){
+	
 		$('.wrapper').hide();
 		
-		let playerNumber = data.game.numOfPlayers;
-		
-		for (let i = 1; i <= playerNumber; i++){
-			$('#players').append($('<option>', {
-			    value: i,
-			    text: "Player" + i
-			}));
-		}
-		
+	let players = [];
 	
-		let config = {
+		
+	scene = new Game(data);
+
+	let	config = {
 				type: Phaser.AUTO,
-				parent: 'right-side',
+				parent: 'game-container',
 				backgroundColor: '#000000',
 				height: CANVAS_HEIGHT,
 				width: CANVAS_WIDTH,
 				pixelArt: true,
+				scene : [scene]
+
 				
-				scene: {
-					create: create,
-					preload: preload,
-					update : update
-					
-				}
 			};
-
-
-
-		function preload() {
-			this.load.image('1', 'assets/organs/1.png');
-			this.load.image('2', 'assets/organs/2.png');
-			this.load.image('3', 'assets/organs/3.png');
-			this.load.image('4', 'assets/organs/4.png');
-			this.load.image('5', 'assets/organs/5.png');
-			
-			this.load.image('6', 'assets/viruses/6.png');
-			this.load.image('7', 'assets/viruses/7.png');
-			this.load.image('8', 'assets/viruses/8.png');
-			this.load.image('9', 'assets/viruses/9.png');
-			this.load.image('10', 'assets/viruses/10.png');
-			
-			
-			this.load.image('11', 'assets/remedies/11.png');
-			this.load.image('12', 'assets/remedies/12.png');
-			this.load.image('13', 'assets/remedies/13.png');
-			this.load.image('14', 'assets/remedies/14.png');
-			this.load.image('15', 'assets/remedies/15.png');
-			
-			this.load.image('16', 'assets/actions/16.png');
-			this.load.image('17', 'assets/actions/17.png');
-			this.load.image('18', 'assets/actions/18.png');
-			this.load.image('19', 'assets/actions/19.png');
-			this.load.image('20', 'assets/actions/20.png');
-		}
-
-
-		function create() {
-	       let positions = PLAYERS_POSITIONS.get(parseInt(playerNumber));
-	       console.log(positions)
-	       players = [];
-	       console.log(positions)
-			positions.forEach(e => {
-				players.push(new Player(this, e[0], e[1]));
-			});
-	       
-	       data.player.hand.cards.forEach((e, i)=>{
-	    	   cards.push(new Card(this, 200 * (i + 1), 700, e.uniqueTypeID));
-	    	  
-	       })
-		}
+	
+	
+		let game = new Phaser.Game(config);
 		
-		function update(){
-			if (x){
-				
-			new Card(this, 39 * (2 + 1), 700, 2);
-					}
-			else{
-				
-			new Card(this, 39 * (2 + 1), 700, 5);
-			}
-		}
-				
-			
-	 game =  new Phaser.Game(config);
+	
   	 $('#game-container').css('display', 'flex')
 	}
 	
 	function handleGameUpdate(data){
-		let karty = data.player.hand.cards;
-		
-		for (let i = 0; i <cards.length; i++){
-			cards[i].setTexture(karty[i].uniqueTypeID);
-			cards[i].clearTint();
-		}
-		
-		 
-		
+		scene.updateScene(data);
 	}
 	
     function messageHandler(data){
@@ -425,10 +341,9 @@ textarea {
 	$('#connectBtn').on("click", joinGame);
 	$('#cancelBtn').on("click", cancel);
 	$('#change').on("click", onChange);
-	$('#skip').on("click", skip);
 	$('#useCard').on("click", useCard);
 	
-})();
+//})();
 
 
 

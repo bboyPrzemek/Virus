@@ -42,7 +42,7 @@ public class WebSocketServer {
 		Player player = new Player(session, username);
 		gameMap.get(gameId).addPlayer(player);
 		try {
-			MessageService.MessageWrapper mw = messageService.new MessageWrapper(State.CONNECT, gameMap.get(gameId), player);
+			MessageService.MessageWrapper mw = messageService.new MessageWrapper(State.CONNECT, gameMap.get(gameId));
 			session.getBasicRemote().sendText(messageService.message(mw),true);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -58,7 +58,7 @@ public class WebSocketServer {
 				System.out.println(p.getSession().getId());
 				System.out.println("...................");
 				try {
-					MessageService.MessageWrapper mw = messageService.new MessageWrapper(State.START, gameMap.get(gameId), p);
+					MessageService.MessageWrapper mw = messageService.new MessageWrapper(State.START, gameMap.get(gameId), p.getHand());
 					p.getSession().getBasicRemote().sendText(messageService.message(mw), true);
 				
 				} catch (IOException e) {
@@ -128,11 +128,20 @@ public class WebSocketServer {
 			
 			
 			
+		}else if (message.split(",")[0].equals("USE")) {
+			Game game = gameMap.get(gameId);
+			Player  player = game.getPlayerBySession(session);
+			int cardIndex = Integer.valueOf(message.split(",")[1]);
+			int playerIndex = Integer.valueOf(message.split(",")[2]);
+			
+			
+			game.useCard(player, game.getPlayerByIndex(playerIndex), cardIndex);
+			
 		}
 		
 		for (Player p :gameMap.get(gameId).getPlayerList()) {
 			try {
-				MessageService.MessageWrapper mw = messageService.new MessageWrapper(State.UPDATE, gameMap.get(gameId), p);
+				MessageService.MessageWrapper mw = messageService.new MessageWrapper(State.UPDATE, gameMap.get(gameId), p.getHand());
 				p.getSession().getBasicRemote().sendText(messageService.message(mw), true);
 			
 			} catch (IOException e) {
