@@ -33,7 +33,16 @@ public class Deck {
 	}
 
 	public void addToPile(List<Card> cards) {
-		this.pile.addAll(cards);
+		List<Card> cardsToPile = new ArrayList<>();
+		
+		for (Card card : cards) {
+			if (card.getOrganType().name() == "SPECIAL") {
+				card.setTemporaryOrganType(null);
+			}
+			cardsToPile.add(card);
+		}
+		
+		this.pile.addAll(cardsToPile);
 	}
 
 	public void movePileToStack() {

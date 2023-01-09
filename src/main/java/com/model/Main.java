@@ -1,9 +1,9 @@
 package com.model;
-import org.openjdk.jol.info.ClassLayout;
-import org.openjdk.jol.vm.VM;
 
-import com.model.MessageService.MessageWrapper;
-import com.services.GameService;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class Main {
 	
@@ -12,20 +12,32 @@ public class Main {
 		
 		//GameService.createNewGame();
 		//GameService.searchGame("0fd09b18-00fe-4af5-9ce6-0b93a50ed6f7");
-		GameDAO gamedao = new GameDAO();
-		Game g = gamedao.getGameById("221e076d-aed4-4eb3-a3ae-352661549c77");
-		Game g2 = new Game("1",2);
-		g2.addPlayer(new Player());
-		g2.addPlayer(new Player());
-		g2.play();
-		System.out.println("stacksize" + g2.getDeck().getStack().size());
+		PlayerDeck deck1 = new PlayerDeck();
+		OrganType or = OrganType.valueOf("BRAIN");
+		System.out.println(or.name());
+		
+		//deck1.addCard(Arrays.asList(new Card(CardType.ORGAN, OrganType.BONE, ActionType.none, "")));
+		
+		
+		PlayerDeck deck2 = new PlayerDeck(deck1);
+		//deck1.getBone().clear();
+		
+		List<String> s = new ArrayList<>();
 		
 		
 		
 		
 		
-		MessageService messageService = new MessageService();
-		//MessageService.MessageWrapper mw = messageService.new MessageWrapper(State.CONNECT, g2);
+		
+		
+		//deck1.setBone(null);
+		System.out.println();
+		//System.out.println(d2.getBone().size());
+		
+		
+		
+		
+	
 		
 	
 		//System.out.println(g.getUniqueGameIdentifier());

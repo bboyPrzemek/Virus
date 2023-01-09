@@ -1,7 +1,201 @@
-canvas {
-	display: block;
-	margin-left: auto;
-	margin-right: auto
+body {
+	height: 100vh;
+}
+
+.cardCmp {
+	position:relative;
+}
+
+.cardCmp:nth-child(2) {
+	margin: 0 10px;
+}
+
+.zoneContainer img{
+	height:118px;
+	width:78px;
+	display:block;
+}
+
+.cardCmp img{
+	height:100px;
+	width:60px;
+}
+
+
+#game-container {
+	display:flex;
+	justify-content:center;
+	height:100%;
+	align-items:center;
+	position:relative;
+}
+
+.board{
+	flex-shrink:0;
+	width:1200px;
+	height:900px;
+	background-color: #855E42;
+}
+
+.gamePlay{
+	position: relative;
+    height: 740px;
+    display: grid;
+    width: 100%;
+    background-color: #855E42;
+    grid-template-rows: 1fr 2fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.hand{
+	position: relative;
+	display:flex;
+	width:100%;
+	height:160px;
+	background-color: #D7CAC1;
+	justify-content:space-evenly;
+	align-items:center;
+}
+
+.zoneContainer{
+	width:max-content;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.action-buttons button{
+	display:block;
+	width:100%;
+}
+
+.action-buttons button:nth-child(2){
+	margin: 10px 0;
+}
+
+.cardsContainer div{
+	height:120px;
+	width:80px;
+	display:inline-block;
+}
+
+.cards{
+	display:flex;
+}
+
+.nick{
+	text-align:center;
+	font-weight:bold;
+}
+
+.grid-item{
+	position:relative;
+}
+
+.el1 .zoneContainer{
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(180deg);
+}
+
+.el2 .zoneContainer{
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(180deg);
+}
+
+.el3 .zoneContainer{
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(180deg);
+}
+
+.el4 .zoneContainer{
+	position: absolute;
+    left: 90px;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.el6 .zoneContainer{
+	position: absolute;
+    top: 50%;
+    right: 95px;
+    transform: translate(50%, -50%) rotate(270deg);
+}
+
+.el8 .zoneContainer{
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+
+.popup{
+	position:absolute;
+	background-color:white;
+	height:auto;
+	width:600px;
+	display:none;
+	z-index:2;
+}
+
+.popup-container{
+	padding:20px;
+}
+.popup-header{
+	margin-bottom:20px;
+}
+
+.popup button{
+	width:100%;
+	margin-top:10px;
+}
+
+
+.heart{
+	border:1px solid red;
+	position:relative;
+}
+
+.bone{
+	border:1px solid yellow;
+	position:relative;
+}
+
+.maw{
+	border:1px solid green;
+	position:relative;
+}
+
+.brain{
+	border:1px solid blue;
+	position:relative;
+}
+
+.remedyIcon, .virusIcon, .remedyIcon2{
+	position:absolute;
+}
+
+.remedyIcon, .virusIcon{
+    top: 1px;
+    height: 20px !important;
+    width: auto !important;
+}
+
+.remedyIcon2{
+	bottom: 1px;
+    height: 20px !important;
+    width: auto !important;
+    right:1px;
+}
+
+#organSelect{
+	display:none;
 }
 
 input{
@@ -13,3 +207,103 @@ input{
     margin-left: auto;
     margin-right: auto;
 }
+
+.wrapper {
+	display: flex;
+	justify-content: center;
+	height: 100vh;
+	align-items: center;
+	min-width: 100vw;
+	position: relative;
+}
+
+
+
+.form-wrapper {
+	background-color: white;
+	border: 1px solid #d9d9d9;
+	padding: 20px 10px;
+	width: 400px;
+	border-radius: 3px;
+}
+
+.form-wrapper button {
+	margin-top: 10px;
+	width: 100%;
+}
+
+.form-wrapper input {
+	margin-top: 10px;
+}
+
+.form-header {
+	font-size: 20px;
+	text-align: center;
+}
+
+
+.menu {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+
+.menu button {
+	margin-bottom: 10px;
+	width: 200px;
+}
+
+.actionSelect{
+	
+	position:absolute;
+	bottom: 10px;
+	right:10px;
+}
+
+
+.log {
+	background-color: graytext;
+	width: 100%;
+	height: 200px;
+	width: 100%;
+}
+
+textarea {
+	width: 100%;
+	height: 100%;
+}
+
+.newGameForm, .joinGameForm {
+	position: absolute;
+	z-index: 2;
+	height: 300px;
+	width: 600px;
+	background-color: white;
+	text-align: center;
+	display: none;
+}
+
+.curtain {
+	z-index:1;
+	display: none;
+	background-color: black;
+	opacity: 0.7;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+}
+
+.h-auto {
+	height: auto !important;
+}
+
+.playBtn {
+	display: none;
+}
+
+.active{
+	border:2px solid green;
+}
+

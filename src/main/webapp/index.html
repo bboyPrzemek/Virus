@@ -3,131 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <title>Tomcat WebSocket</title>
-<script src="//cdn.jsdelivr.net/npm/phaser@3.51.0/dist/phaser.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+	crossorigin="anonymous"></script>
+<link rel="stylesheet" href="styles.css" type="text/css">
+<script src="script.js"></script>
 <script src="GameSettings.js"></script>
-<script src="HandData.js"></script>
-<script src="Card.js"></script>
-<script src="PlayerData.js"></script>
-<script src="CardZone.js"></script>
-<script src="Button.js"></script>
-<script src="Game.js"></script>
+
+
 <script src="Cookie.js"></script>
-<script>
-
-</script>
-
-<style>
-.wrapper {
-	display: flex;
-	justify-content: center;
-	height: 100vh;
-	align-items: center;
-	min-width: 100vw;
-	position: relative;
-}
-
-body {
-	height: 100vh;
-}
-
-.form-wrapper {
-	background-color: white;
-	border: 1px solid #d9d9d9;
-	padding: 20px 10px;
-	width: 400px;
-	border-radius: 3px;
-}
-
-.form-wrapper button {
-	margin-top: 10px;
-	width: 100%;
-}
-
-.form-wrapper input {
-	margin-top: 10px;
-}
-
-.form-header {
-	font-size: 20px;
-	text-align: center;
-}
-
-
-
-.menu {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	height: 100%;
-}
-
-.menu button {
-	margin-bottom: 10px;
-	width: 200px;
-}
-
-canvas {
-	background-color: black;
-	background-size: 50px 100px;
-	display: block;
-	margin: auto;
-	image-rendering: pixelated;
-}
-
-#game-container {
-	display: none;
-	justify-content:center;
-	height:100%;
-}
-
-.log {
-	background-color: graytext;
-	width: 100%;
-	height: 200px;
-	width: 100%;
-}
-
-textarea {
-	width: 100%;
-	height: 100%;
-}
-
-.newGameForm, .joinGameForm {
-	position: absolute;
-	z-index: 2;
-	height: 300px;
-	width: 600px;
-	background-color: white;
-	text-align: center;
-	display: none;
-}
-
-.curtain {
-	display: none;
-	background-color: black;
-	opacity: 0.7;
-	height: 100%;
-	width: 100%;
-	position: absolute;
-}
-
-.h-auto {
-	height: auto !important;
-}
-
-.playBtn {
-	display: none;
-}
-</style>
-
-
 </head>
 <body>
-
+	<div class="curtain"></div>
 	<div class="wrapper">
 		<div class="form-wrapper">
 			<div class="mb-4 form-header">
@@ -139,7 +34,7 @@ textarea {
 			<!-- <button id="newGameBtn" class="btn btn-primary btn-block"
 				onclick="showNewGameForm();">Host Game</button> -->
 		</div>
-		<div class="curtain"></div>
+
 		<div class="joinGameForm">
 			<h1>Join Game</h1>
 
@@ -180,222 +75,53 @@ textarea {
 
 
 	<div id="game-container">
+		<div class="board">
+			<div class="gamePlay grid-container">
+				<div class="grid-item el1">1</div>
+				<div class="grid-item el2">2</div>
+				<div class="grid-item el3">3</div>
+				<div class="grid-item el4">4</div>
+				<div class="grid-item el5">5</div>
+				<div class="grid-item el6">6</div>
+				<div class="grid-item el7">7</div>
+				<div class="grid-item el8 self">8</div>
+				<div class="grid-item el9">9</div>
+			</div>
+			<div class="hand">
+				<div class="action-buttons">
+					<button class="btn btn-light" id="changeCards">Wymień
+						karty</button>
+					<button class="btn btn-light" id="doNothing">Nic nie rób</button>
+					<button class="btn btn-light" id="useCard">Użyj karty</button>
+				</div>
+				<div class="cards"></div>
+
+			</div>
+		</div>
+		<div class="curtain"></div>
+		<div class="popup">
+			<div class="popup-container">
+				<div class="popup-header">
+					<span>Wybierz gracza</span>
+				</div>
+				<select class="form-select" id="playerSelect"></select>
+				<select class="form-select" id="organSelect">
+					<option value="bone">Bone</option>
+					<option value="brain">Brain</option>
+					<option value="heart">Heart</option>
+					<option value="maw">Maw</option>
+				</select>
+				<button class="btn btn-light" id="confirmCardUsage">OK</button>
+				<button class="btn btn-light" id="cancelPopup">Anuluj</button>
+			</div>
+		</div>
 	</div>
 </body>
-
-<script type="text/javascript">
-//(function(){
-	
-	let webSocket;
-	let players;
-	let cards = [];
-	let x = false;
-	let scene;
-	
-	function joinGame(){
-		
-		if (webSocket != undefined){
-			return
-			};
-		console.log(webSocket)
-		let url='http://localhost:8080/ServerGame/rest/game/search/';
-		let gameid = $('#gameId').val();
-		let username = $('#nickname').val();
-		url += gameid;
-		
-		
-		
-			$.ajax({
-			    url: url, //gdzie się łączymy
-			    method: "get", //typ połączenia, domyślnie get
-			})
-			.done(res => { //reaguję na odpowiedź - o tym poniżej
-			    if (res == "1"){//jesli istnieje gra w bazie
-			    	 webSocket = new WebSocket("ws://localhost:8080/ServerGame/basicEndpoint/" + gameid + "?clientId=" + "kutas"+ "&username=" + username);
-			    	 webSocket.onmessage = function(message) {
-		    		 let data = JSON.parse(message.data);
-		    		
-		    	
-		    		 
-		 		
-		    		 
-		    		 console.log(data)
-		    		 messageHandler(data);
-		    		};
-			    
-			    		
-			    }
-			});
-	}
-
-	
-	function showJoinGameForm(){
-		$('.joinGameForm').show();
-		$('.curtain').show();
-	}
-
-	function cancel(){
-		$('.joinGameForm').hide();
-		$('.newGameForm').hide();
-		$('.curtain').hide();
-	}
-
-	function showNewGameForm(){
-		$('.newGameForm').show();
-		$('.curtain').show();
-	}
-	
-	function onChange(){
-		let message = "CHANGE";
-		
-		let tinted = false;
-		for (var i = 0; i < cards.length; i++){
-			if (cards[i].isTinted){
-				tinted = true;
-				message += "," + i;
-			}
-		}
-		webSocket.send(message);
-	}
-	
-	function useCard(){
-		x = !x;
-		
-	}
-	
-	
-
-	function createNewGame(){
-		const numOfPlayers = $('#numPlayers').val();
-		let url='http://localhost:8080/ServerGame/rest/game/new/' + numOfPlayers;
-		
-		$.ajax({
-		    url: url, //gdzie się łączymy
-		    method: "post", //typ połączenia, domyślnie get
-		})
-		.done(res => { //reaguję na odpowiedź - o tym poniżej
-	    	webSocket = new WebSocket("ws://localhost:8080/ServerGame/basicEndpoint/" + res);
-	    	webSocket.onmessage = function(message) {
-	    		console.log(message);
-	    	};
-	    	//cancel();
-	    //	$('.wrapper').addClass('h-auto');
-	    	//$('.form-wrapper').hide();
-		});
-
-
-	}
-	
-	function handleConnect(data){
-		
-		
-	}
-	
-	function handleStart(data){
-	
-		$('.wrapper').hide();
-		
-	let players = [];
-	
-		
-	scene = new Game(data);
-
-	let	config = {
-				type: Phaser.AUTO,
-				parent: 'game-container',
-				backgroundColor: '#000000',
-				height: CANVAS_HEIGHT,
-				width: CANVAS_WIDTH,
-				pixelArt: true,
-				scene : [scene]
-
-				
-			};
-	
-	
-		let game = new Phaser.Game(config);
-		
-	
-  	 $('#game-container').css('display', 'flex')
-	}
-	
-	function handleGameUpdate(data){
-		scene.updateScene(data);
-	}
-	
-    function messageHandler(data){
-    	switch(data.state){
-    	
-    	case "CONNECT":
-            handleConnect(data);
-            break;
-        case "START":
-        	handleStart(data);
-        	break;
-        case "UPDATE":
-        	 handleGameUpdate(data);
-    	}
-	}
-	
-	$('#joinBtn').on("click", showJoinGameForm);
-	$('#connectBtn').on("click", joinGame);
-	$('#cancelBtn').on("click", cancel);
-	$('#change').on("click", onChange);
-	$('#useCard').on("click", useCard);
-	
-//})();
-
-
-
-
-
-
-
-/*
-	var webSocket = new WebSocket(
-			"ws://localhost:8080/ServerGame/basicEndpoint");
-	var echoText = document.getElementById("echoText");
-	echoText.value = "";
-	var message = document.getElementById("message");
-	webSocket.onopen = function(message) {
-		wsOpen(message);
-	};
-	webSocket.onmessage = function(message) {
-		wsGetMessage(message);
-	};
-	webSocket.onclose = function(message) {
-		wsClose(message);
-	};
-	webSocket.onerror = function(message) {
-		wsError(message);
-	};
-	function wsOpen(message) {
-		echoText.value += "Connected ... \n";
-	}
-	function wsSendMessage() {
-		webSocket.send(message.value);
-		echoText.value += "Message sended to the server : " + message.value
-				+ "\n";
-		message.value = "";
-	}
-	function wsCloseConnection() {
-		webSocket.close();
-	}
-	function wsGetMessage(message) {
-		echoText.value += "Message received from to the server : "
-				+ message.data + "\n";
-	}
-	function wsClose(message) {
-		echoText.value += "Disconnect ... \n";
-	}
-
-	function wsError(message) {
-		echoText.value += "Error ... \n";
-	}
-	
-	*/
-	
+<script>
 	
 </script>
+
+
+
 
 </html>

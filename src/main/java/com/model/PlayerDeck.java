@@ -9,69 +9,68 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PlayerDeck {
-	private List<Card> heart;
-	private List<Card> maw;
-	private List<Card> bone;
-	private List<Card> brain;
+	List<CardZone> cardZones = new ArrayList<>();;
+	
+	
 
 	public PlayerDeck() {
-		this.heart = new ArrayList<>();
-		this.maw = new ArrayList<>();
-		this.bone = new ArrayList<>();
-		this.brain = new ArrayList<>();
+		this.cardZones.add(new CardZone("heart"));
+		this.cardZones.add(new CardZone("maw"));
+		this.cardZones.add(new CardZone("bone"));
+		this.cardZones.add(new CardZone("brain"));
 
 	}
+
+	public PlayerDeck(PlayerDeck other) {
+		this.cardZones.add(new CardZone("heart"));
+		this.cardZones.add(new CardZone("maw"));
+		this.cardZones.add(new CardZone("bone"));
+		this.cardZones.add(new CardZone("brain"));
+		
+		
+
+		for (Card c : other.getCardZoneByType("heart").getCards()) {
+			this.getCardZoneByType("heart").addCard(c);
+		}
+		for (Card c : other.getCardZoneByType("bone").getCards()) {
+			this.getCardZoneByType("bone").addCard(c);
+		}
+		for (Card c : other.getCardZoneByType("maw").getCards()) {
+			this.getCardZoneByType("maw").addCard(c);
+		}
+		for (Card c : other.getCardZoneByType("brain").getCards()) {
+			this.getCardZoneByType("brain").addCard(c);
+		}
+	}
+	
+	public CardZone getCardZoneByType(String type) {
+		CardZone cZone = null;
+		for (CardZone cardZone : this.cardZones) {
+			if (cardZone.getType().equals(type)) {
+				cZone = cardZone;
+			}
+			
+		}
+		return cZone;
+	}
+	
 
 	// walidacje trzeba zrobic jeszcze czy wgl mozna dodac taka karte
-	public void addCard(List<Card> cards) {
-		List<Card> returnCards = new ArrayList<>();
+	public Boolean addCard(Card card) {
 
-		for (Card card : cards) {
-			Boolean cardAdded = false;
-			if (card.getOrganType().name() == "HEART") {
-				if (deckValidator(card, this.heart)) {
-					this.heart.add(card);
-					cardAdded = true;
-				}
-			} else if (card.getOrganType().name() == "MAW") {
-				if (deckValidator(card, this.maw)) {
-					this.maw.add(card);
-					cardAdded = true;
-				}
-			} else if (card.getOrganType().name() == "BONE") {
-				if (deckValidator(card, this.bone)) {
-					this.bone.add(card);
-					cardAdded = true;
-				}
-			} else if (card.getOrganType().name() == "BRAIN") {
-				if (deckValidator(card, this.brain)) {
-					this.brain.add(card);
-					cardAdded = true;
-				}
-			}
-			if (!cardAdded) {
-				returnCards.add(card);
-			}
+		Boolean cardAdded = false;
+		if (card.getOrganType().name() == "HEART" || card.getTemporaryOrganType().name() == "HEART") {
+			cardAdded = this.getCardZoneByType("heart").addCard(card);
+		} else if (card.getOrganType().name() == "MAW" || card.getTemporaryOrganType().name() == "MAW") {
+			cardAdded = this.getCardZoneByType("maw").addCard(card);
+		} else if (card.getOrganType().name() == "BONE" || card.getTemporaryOrganType().name() == "BONE") {
+			cardAdded = this.getCardZoneByType("bone").addCard(card);
+		} else if (card.getOrganType().name() == "BRAIN" || card.getTemporaryOrganType().name() == "BRAIN") {
+			cardAdded = this.getCardZoneByType("brain").addCard(card);
 		}
+		return cardAdded;
 	}
 
-	public Boolean deckValidator(Card card, List<Card> cardList) {
-		if (card.getCardType().name() != "ORGAN" && cardList.size() == 0) {
-			return false;
-		} else if (card.getCardType().name() == "ORGAN" && cardList.size() > 0) {
-			return false;
-		} else if (cardList.size() == 3) {
-			return false;
-		} else if (card.getCardType().name() == "ACTION") {
-			return false;
-		}
-
-		return true;
-
-	}
-
-	public List<Card> removeCards() {
-		return null;
-	}
+	
 
 }

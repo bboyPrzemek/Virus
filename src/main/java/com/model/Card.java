@@ -6,11 +6,12 @@ import lombok.Setter;
 @Setter
 @Getter
 
-public class Card {
+public class Card{
 	
 	private CardType cardType;
 	private OrganType organType;
 	private ActionType actionType;
+	private OrganType temporaryOrganType;
 	private String uniqueTypeID;
 	private Boolean isVaccinated;
 	
@@ -20,6 +21,7 @@ public class Card {
 		this.organType = organType;
 		this.actionType = actionType;
 		this.uniqueTypeID = uniqueTypeID;
+		this.temporaryOrganType = OrganType.none;
 	}
 
 
@@ -28,6 +30,8 @@ public class Card {
 		return "Card [cardType=" + cardType + ", organType=" + organType + ", actionType=" + actionType + 
 				  ", uniqueTypeID=" + uniqueTypeID + ", isVaccinated=" + isVaccinated + "]";
 	}
+	
+	
 
 }
 

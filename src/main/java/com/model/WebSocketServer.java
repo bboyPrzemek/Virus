@@ -16,7 +16,11 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
-import com.model.MessageService.MessageWrapper;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
 
 @ServerEndpoint("/basicEndpoint/{gameId}")
 public class WebSocketServer {
@@ -26,9 +30,6 @@ public class WebSocketServer {
 	public void open(@PathParam("gameId") String gameId, Session session) {
 		GameDAO gameDAO = new GameDAO();
 		Game game = gameDAO.getGameById(gameId);
-		
-		MessageService messageService = new MessageService();
-		
 
 		
 		if (!gameMap.containsKey(game.getUniqueGameIdentifier())) {
@@ -42,8 +43,8 @@ public class WebSocketServer {
 		Player player = new Player(session, username);
 		gameMap.get(gameId).addPlayer(player);
 		try {
-			MessageService.MessageWrapper mw = messageService.new MessageWrapper(State.CONNECT, gameMap.get(gameId));
-			session.getBasicRemote().sendText(messageService.message(mw),true);
+			
+			session.getBasicRemote().sendText(MessageService.message(new ClientDataWrapper(gameMap.get(gameId), player, State.CONNECT)), true);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -58,8 +59,7 @@ public class WebSocketServer {
 				System.out.println(p.getSession().getId());
 				System.out.println("...................");
 				try {
-					MessageService.MessageWrapper mw = messageService.new MessageWrapper(State.START, gameMap.get(gameId), p.getHand());
-					p.getSession().getBasicRemote().sendText(messageService.message(mw), true);
+					p.getSession().getBasicRemote().sendText(MessageService.message(new ClientDataWrapper(gameMap.get(gameId), p, State.START)), true);
 				
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -92,6 +92,7 @@ public class WebSocketServer {
 				System.out.println("players connected" + gameMap.get(key).getPlayerList().size());
 			}
 		}
+		
 		System.out.println("session closed");
 		System.out.println(session.getBasicRemote());
 	}
@@ -103,46 +104,52 @@ public class WebSocketServer {
 
 	@OnMessage
 	public void onMessage(@PathParam("gameId") String gameId, String message, Session session) {
-		MessageService messageService = new MessageService();
+		ObjectMapper objectMapper = new ObjectMapper();
+		ClientMessageConverter clientMessageConverter = null;
+		try {
+			System.out.println("try");
+			 clientMessageConverter = objectMapper.readValue(message, ClientMessageConverter.class);
+		} catch (JsonParseException e1) {
+			System.out.println("try1");
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (JsonMappingException e1) {
+			System.out.println("try2");
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			System.out.println("try3");
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+
 		System.out.println(message);
 		System.out.println(gameId);
-		if (message.equals("SKIP")) {
+		if (clientMessageConverter.getMessage().equals("SKIP")) {
 			gameMap.get(gameId).setNextPlayer();
-		}else if (message.split(",")[0].equals("CHANGE")) {
-			System.out.println("mleko");
+		}else if (clientMessageConverter.getMessage().equals("CHANGE")) {
 			Game game = gameMap.get(gameId);
 			Player  player = game.getPlayerBySession(session);
-			System.out.println(player.getName());
-			System.out.println(player.getClientID());
-			String[] mess = message.split(",");
-			List<Integer> integerList = new ArrayList<>();
+			game.changePlayerCard(player, clientMessageConverter.getCards());
 			
 			
-			for (int i = 1; i < mess.length; i++) {
-				integerList.add(Integer.valueOf(mess[i]));
-				System.out.println(mess[i]);
-			}
-			
-			
-			game.changePlayerCard(player, integerList);
-			
-			
-			
-		}else if (message.split(",")[0].equals("USE")) {
+		}else if (clientMessageConverter.getMessage().equals("USE")) {
 			Game game = gameMap.get(gameId);
 			Player  player = game.getPlayerBySession(session);
-			int cardIndex = Integer.valueOf(message.split(",")[1]);
-			int playerIndex = Integer.valueOf(message.split(",")[2]);
+
+			int cardIndex = clientMessageConverter.getCards()[0];
+			int clientId = clientMessageConverter.getPlayers()[0];
+			String zone = clientMessageConverter.getZone();
 			
 			
-			game.useCard(player, game.getPlayerByIndex(playerIndex), cardIndex);
+			game.useCard(player, game.getPlayerByClientId(clientId), cardIndex, zone);
 			
 		}
 		
 		for (Player p :gameMap.get(gameId).getPlayerList()) {
 			try {
-				MessageService.MessageWrapper mw = messageService.new MessageWrapper(State.UPDATE, gameMap.get(gameId), p.getHand());
-				p.getSession().getBasicRemote().sendText(messageService.message(mw), true);
+				p.getSession().getBasicRemote().sendText(MessageService.message(new ClientDataWrapper(gameMap.get(gameId), p, State.UPDATE)),true);
 			
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

@@ -11,7 +11,6 @@ public class Hand {
 	
 	
 	private List<Card> cards;
-	private Boolean isPlayable = false;
 	
 	public Hand() {
 		this.cards = new ArrayList<>();
@@ -23,7 +22,21 @@ public class Hand {
 		return card;
 	}
 	
+	public void removeCard(Card card) {
+		Card cd = null;
+		for (Card c : this.cards) {
+			if (c == card) {
+				cd = c;
+			}
+		}
+		this.cards.remove(cd);
+	}
+	
 	public void addCardsToHand(List<Card> cards) {
 		this.cards.addAll(cards);
+	}
+	
+	public Card getCardByIndex(int index) {
+		return cards.get(index);
 	}
 }
