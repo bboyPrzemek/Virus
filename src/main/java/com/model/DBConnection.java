@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
-	private static String url = System.getenv("DB_HOST");
-	private static String userName = System.getenv("DB_USERNAME");
-	private static String password = System.getenv("DB_PASSWORD");
+	private static String url = "jdbc:postgresql://postgres.cx6jnlua8siv.us-east-1.rds.amazonaws.com:5432/postgres";
+	private static String userName = "postgres";
+	private static String password = "12345678";
 
 	public static Connection getConnection() {
 		System.out.println(url);
