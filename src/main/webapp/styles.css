@@ -69,7 +69,7 @@ body {
 }
 
 .action-buttons button:nth-child(2){
-	margin: 10px 0;
+	margin: 10px 0 0 0;
 }
 
 .cardsContainer div{
