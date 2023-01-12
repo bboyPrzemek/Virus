@@ -1,5 +1,5 @@
 package com.model;
 public class GameSettings {
-	public static String CONFIG_FILE_PATH = "C:/Users/przem/eclipse-workspace/Virus/src/main/webapp/WEB-INF/config/config.json";	
-	public static String CARDS_FILE_PATH = "C:/Users/przem/eclipse-workspace/Virus/src/main/webapp/WEB-INF/config/cards.json";	
+	public static String CONFIG_FILE_PATH = "/config/config.json";	
+	public static String CARDS_FILE_PATH = "/config/cards.json";	
 }

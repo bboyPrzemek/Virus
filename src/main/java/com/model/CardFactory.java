@@ -1,5 +1,7 @@
 package com.model;
-import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,11 +33,15 @@ public class CardFactory {
 	}
 
 	public static List<Card> getCards() {
+		InputStream inputStream = CardFactory.class.getClassLoader().getResourceAsStream(GameSettings.CARDS_FILE_PATH);
+		Reader reader = new InputStreamReader(inputStream);
+		
+		
 		List<Card> cardList = new ArrayList<>();
 		JSONParser parser = new JSONParser();
 
 		try {
-			Object obj = parser.parse(new FileReader(GameSettings.CARDS_FILE_PATH));
+			Object obj = parser.parse(reader);
 			JSONArray cards = (JSONArray) obj;
 
 			for (int i = 0; i < cards.size(); i++) {
@@ -58,10 +64,12 @@ public class CardFactory {
 
 	public static Map<String, String> getConfig() {
 		Map<String, String> configMap = new TreeMap<String, String>();
+		InputStream inputStream = CardFactory.class.getClassLoader().getResourceAsStream(GameSettings.CONFIG_FILE_PATH);
+		Reader reader = new InputStreamReader(inputStream);
 
 		JSONParser parser = new JSONParser();
 		try {
-			Object obj = parser.parse(new FileReader(GameSettings.CONFIG_FILE_PATH));
+			Object obj = parser.parse(reader);
 			JSONArray configs = (JSONArray) obj;
 
 			for (int i = 0; i < configs.size(); i++) {

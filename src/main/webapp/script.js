@@ -48,7 +48,7 @@ jQuery(document).ready(function() {
 			return
 		};
 		console.log(webSocket)
-		let url =  '/rest/game/search/';
+		let url =  '/ServerGame/rest/game/search/';
 		let gameid = $('#gameId').val();
 		let username = $('#nickname').val();
 		url += gameid;
@@ -61,7 +61,7 @@ jQuery(document).ready(function() {
 		})
 			.done(res => { //reaguję na odpowiedź - o tym poniżej
 				if (res == "1") {//jesli istnieje gra w bazie
-					webSocket = new WebSocket("ws://" + host + "/basicEndpoint/" + gameid + "?clientId=" + "kutas" + "&username=" + username);
+					webSocket = new WebSocket("ws://" + host + "/ServerGame/basicEndpoint/" + gameid + "?clientId=" + "kutas" + "&username=" + username);
 					webSocket.onmessage = function(message) {
 						let data = JSON.parse(message.data);
 
@@ -201,15 +201,6 @@ jQuery(document).ready(function() {
 
 
 
-	function doNothing() {
-		let messageObj = {
-			"message": "SKIP"
-		}
-		webSocket.send(JSON.stringify(messageObj));
-	}
-
-
-
 	function createNewGame() {
 		const numOfPlayers = $('#numPlayers').val();
 		let url = 'http://localhost:8080/ServerGame/rest/game/new/' + numOfPlayers;
@@ -245,6 +236,10 @@ jQuery(document).ready(function() {
 		updateHand(data);
 		updateBoard(data);
 		createPlayerPicklist(data);
+		showGameContainer();
+	}
+	
+	function showGameContainer(){
 		$('#game-container').css('display', 'flex');
 	}
 
@@ -453,7 +448,6 @@ jQuery(document).ready(function() {
 	$('#cancelBtn').on("click", cancel);
 	$('#changeCards').on("click", onChange);
 	$('#useCard').on("click", useCard);
-	$('#doNothing').on("click", doNothing);
 
 	//})();
 

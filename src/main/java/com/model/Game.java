@@ -9,15 +9,16 @@ import javax.websocket.Session;
 
 import lombok.Getter;
 
+@Getter
 public class Game {
 
 	private Set<Player> playerList;
-	@Getter
+	
 	private int numOfPlayers;
 	private String uniqueGameIdentifier;
 	private int currentPlayerIndex = 0;
 
-	@Getter
+
 	private Deck deck;
 
 	public Game(String uniqueGameIdentifier, int numOfPlayers) {
@@ -26,10 +27,6 @@ public class Game {
 		this.uniqueGameIdentifier = uniqueGameIdentifier;
 		this.deck = new Deck();
 
-	}
-
-	public String getUniqueGameIdentifier() {
-		return uniqueGameIdentifier;
 	}
 
 	public void addPlayer(Player player) {

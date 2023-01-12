@@ -15,7 +15,9 @@ public class GameDAO {
 
 			if (rs.next()) {
 				String gameid = rs.getString("gameid");
+				System.out.println(gameid);
 				int numofplayers = rs.getInt("numofplayers");
+				System.out.println(numofplayers);
 				System.out.println(gameid + " " + numofplayers);
 				game = new Game(gameid, numofplayers);
 				System.out.println(rs);
@@ -31,6 +33,11 @@ public class GameDAO {
 				System.out.println(e.getMessage());
 			}
 		}
+		System.out.println("|||||||||||||||||||||||||||||||||||");
+		System.out.println(game);
+		System.out.println(game.getUniqueGameIdentifier());
+		System.out.println(game.getNumOfPlayers());
+		System.out.println("|||||||||||||||||||");
 		return game;
 
 	}
